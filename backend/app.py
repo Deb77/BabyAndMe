@@ -1,4 +1,6 @@
-import os, bcrypt
+import os
+import hashlib
+import json 
 from flask_cors import CORS
 from flask import Flask, request, jsonify, render_template
 from bson.objectid import ObjectId
@@ -33,6 +35,13 @@ def sendmail(email,html):
         print(response.status_code)
     except Exception as e:
         print(e)
+
+def hash_password(text):
+    salt = os.getenv("PASSWORD_SECRET_KEY")
+    hashed = str(text) + salt
+    hashed = hashlib.md5(hashed.encode())
+    hashed = hashed.hexdigest()
+    return hashed
 
 # Breast feeding center routes
 
@@ -173,24 +182,100 @@ def signup():
         place = request.json["place"]
         number = request.json["number"]
         location = request.json["location"]
+        email = request.json["email"]
         bottle_count = request.json["bottle_count"]
-        password = b"{request.json['password']}"
-        
-        sb = db.donation_center.insert_one({
+        password = request.json['password']
+            
+        db.donation_center.insert_one({
             "place": place,
             "number": number,
             "location": location,
+            "email": email,
             "bottle_count": bottle_count,
-            "password": password
+            "password": hash_password(password)
         })
         status = 201
         message = "Admin user created successfully"
-        return jsonify({"status": status, "message": message})   
+        return jsonify({"status": status, "message": message})      
     except:
         status = 400
         message = "Admin user could not be created"
         return jsonify({"status": status, "message": message})
+
+@app.route("/donation-center/login", methods=["POST"])
+def login():
+    try:
+        email = request.json["email"]
+        password = request.json["password"]
+        admin = db.donation_center.find_one({
+            "email": email
+        })
+        if admin["password"] == hash_password(password):
+            status = 201
+            message = "Logged in successfully"
+            data = {"_id": str(admin["_id"])}
+            return jsonify({"status": status, "message": message, "data": data})
+        else:
+            status = 400
+            message = "Incorrect password",
+            return jsonify({"status": status, "message": message })
+    except:
+        status = 400
+        message = "Something went wrong",
+        return jsonify({"status": status, "message": message})
         
+@app.route("/donation-center/getall", methods=["GET"])
+def getall():
+    try:
+        centers = list(db.donation_center.find({}))
+        centers = [{
+            "_id": str(center["_id"]),
+            "place": center["place"],
+            "number": center["number"],
+            "location": center["location"],
+            "bottle_count": center["bottle_count"]
+            } for center in centers]
+        status = 201
+        data = centers
+        return jsonify({"status": status, "data": data})    
+    except:
+        status = 400
+        message = "Could not find any lactation centers"
+        return jsonify({"status": status, "message": message})
+
+@app.route("/donation-center/<center_id>", methods=["PUT"])
+def getcenter(center_id):
+    if request.method == "GET":
+        try:
+            center = db.donation_center.find_one({"_id": ObjectId(center_id)})
+            center_formated = {
+                "_id": str(center["_id"]),
+                "place": center["place"],
+                "number": center["number"],
+                "location": center["location"],
+                "bottle_count": center["bottle_count"]
+                } 
+            status = 201
+            return jsonify({"status": status, "data": center_formated})  
+        except:
+            status = 400
+            message = "Could not find any lactation center"
+            return jsonify({"status": status, "message": message})
+    elif request.method == "PUT":
+        try: 
+            bottle_count = request.json["bottle_count"]
+            db.donation_center.update_one({"_id": ObjectId(center_id)}, {
+                "$set": {"bottle_count": bottle_count}
+            })
+            status = 201
+            message = "Bottle count updated"
+            return jsonify({"status": status, "message": message})
+        except:
+            status = 400
+            message = "Failed to update bottle count"
+            return jsonify({"status": status, "message": message})
+        
+
 
 if __name__ == "__main__":
     app.run(debug=True)
