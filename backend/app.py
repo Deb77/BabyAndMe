@@ -1,4 +1,5 @@
 import os
+from flask_cors import CORS
 from flask import Flask, request, jsonify, render_template
 from bson import ObjectId
 from dotenv import load_dotenv
@@ -8,6 +9,7 @@ from sendgrid.helpers.mail import Mail
 from helpers.database import db
 
 app = Flask(__name__)
+CORS(app)
 
 # Mail settings
 app.config['SECRET_KEY'] = os.getenv("MAIL_SECRET_KEY")
