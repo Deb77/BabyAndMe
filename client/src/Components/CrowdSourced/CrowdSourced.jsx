@@ -1,6 +1,7 @@
 import React,{useState, useEffect} from 'react';
 import CommentsWrapper from './CommentsWrapper';
 import LocationDisplay from './LocationDisplay';
+import AddLactationCenter from './AddLactationCenters';
 import axios from 'axios';
 import {makeStyles} from '@material-ui/core';
 
@@ -20,22 +21,28 @@ const CrowdSourced = ({isMapLoaded}) => {
     const [selectedLocationId,setSelectedLocationId] = useState(null);
     const [centerData,setCenterData] = useState([]);
 
+    const [isAddLactionModalOpen,setIsAddLactionModalOpen] = useState(true);
+
     useEffect(()=>{
         axios.get('http://localhost:5000/get-all-centers')
-        .then((data)=>console.log(data));
+        .then((response)=>setCenterData(response.data.data));
     },[])
     //const [comments,setComments] = useState([]);
 
+    const handleToggleLactionModal= ()=>{
+        setIsAddLactionModalOpen(!isAddLactionModalOpen);
+    }   
 
     const handleLocationSelect= (id)=>{
         setSelectedLocationId(id)
     }
-    console.log(x)
+    //console.log(x)
     const styles= useStyles();
     return (
         <div className={styles.container}>
-            <CommentsWrapper selected={selectedLocationId} />
-            <LocationDisplay isMapLoaded={isMapLoaded} handleLocationSelect={handleLocationSelect} />
+            <AddLactationCenter handleClose={handleToggleLactionModal} isOpen={isAddLactionModalOpen} isMapLoaded={isMapLoaded}/>
+            <CommentsWrapper selectedLocationId={selectedLocationId} />
+            <LocationDisplay centerData={centerData} isMapLoaded={isMapLoaded} handleLocationSelect={handleLocationSelect} />
         </div>
     );
 }

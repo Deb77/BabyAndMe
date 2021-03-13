@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import { makeStyles, Button, Typography } from '@material-ui/core';
 import {ReactComponent as NotSelectedPlaceholder} from '../../Assets/no-locations.svg';
 
 import AverageReview from '../Comments/AverageReview';
 import CommentBox from '../Comments/CommentBox';
 import AddReview from './AddReview';
+import axios from 'axios';
 
 
 
@@ -25,10 +26,15 @@ const useStyles = makeStyles({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
+    },
+    addButton:{
+        height: 50,
+        width: 200,
+        marginTop: 30
     }
 
 });
-
+/*
 const comments=[
     {   
         name: 'Jake Pirelta',
@@ -56,10 +62,19 @@ const comments=[
         rating: (Math.random() * 6).toFixed(1),
     },
 ]
-
-const CommentsWrapper = ({selected}) => {
+*/
+const CommentsWrapper = ({selectedLocationId}) => {
     const [isModalOpen, setIsModalOpen]= useState(false)
     const styles= useStyles();
+
+    const [comments,setComments] = useState([]);
+
+    useEffect(()=>{
+        if(selectedLocationId !== null){
+            axios.get(`http://localhost:5000/get-center-reviews/${selectedLocationId}`)
+            .then((response)=>console.log(response.data.data))
+        }
+    },[selectedLocationId])
 
     const handleToggleAddReview= ()=>{
         setIsModalOpen( !isModalOpen )
@@ -68,27 +83,34 @@ const CommentsWrapper = ({selected}) => {
     return (
         <>
         {
-            selected!==null?
+            selectedLocationId!==null?
             <>
-            <AddReview isOpen={isModalOpen} handleClose={handleToggleAddReview} />
-            <div className={styles.container}>
-                <AverageReview rating={3.8} loading={false} />
-                <div className={styles.commentsContainer}>
-                <Button variant="contained" color="primary" onClick={handleToggleAddReview}>
-                    Add Review
-                </Button>
-                    {
-                        comments.map((value,id)=>(
-                            <CommentBox key={''+value.rating+id}
-                                name={value.name}
-                                comment={value.comment}
-                                rating={value.rating}
-                            />
-                        ))
-                    }
+            <AddReview isOpen={isModalOpen} handleClose={handleToggleAddReview} selectedLocationId={selectedLocationId} />
+            {
+                comments.length===0?
+                <Button variant="contained" color="primary" className={styles.addButton} onClick={handleToggleAddReview}>
+                        Add Review
+                </Button>:
+                <div className={styles.container}>
+                    <AverageReview rating={3.8} loading={false} />
+                    <div className={styles.commentsContainer}>
+                    <Button variant="contained" color="primary" onClick={handleToggleAddReview}>
+                        Add Review
+                    </Button>
+                        {
+                            comments.map((value,id)=>( 
+                                <CommentBox key={''+value.rating+id}
+                                    name={value.name}
+                                    comment={value.comment}
+                                    rating={value.rating}
+                                />
+                            ))
+                        }
+                    </div>
                 </div>
-            </div>
-            </>:
+            }
+            </>
+            :
             <div className={styles.notSelectedsvg}>
                 <Typography variant="body1" color="textSecondary" component="p" align='center'>
                     Find A Safe spot to Feed your Baby

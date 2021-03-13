@@ -3,6 +3,7 @@ import { Modal, TextField, makeStyles, Button, Typography, IconButton } from '@m
 import { Formik, Field} from 'formik';
 import RatingStars from '../Comments/RatingStars';
 import CancelIcon from '@material-ui/icons/Cancel';
+import axios from 'axios';
 
 const useStyles= makeStyles({
     container: {
@@ -36,11 +37,18 @@ const useStyles= makeStyles({
     }
 });
 
-const AddReview = ({isOpen,handleClose}) => {
+const AddReview = ({isOpen,handleClose,selectedLocationId}) => {
 
     const handleSubmit= (values)=>{
-        console.log(values);
-        handleClose();
+        axios.post(`http://localhost:5000/add-review/${selectedLocationId}`,{
+            name : values.name,
+            email : values.email,
+            rating: values.review,
+            comment: values.comment
+        })
+        .then(()=>{
+            handleClose();
+        })
     };
 
     const styles= useStyles();
