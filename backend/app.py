@@ -1,6 +1,7 @@
-import os
+import os, bcrypt
+from flask_cors import CORS
 from flask import Flask, request, jsonify, render_template
-from bson import ObjectId
+from bson.objectid import ObjectId
 from dotenv import load_dotenv
 load_dotenv()
 from sendgrid import SendGridAPIClient
@@ -8,6 +9,7 @@ from sendgrid.helpers.mail import Mail
 from helpers.database import db
 
 app = Flask(__name__)
+CORS(app)
 
 # Mail settings
 app.config['SECRET_KEY'] = os.getenv("MAIL_SECRET_KEY")
@@ -48,6 +50,7 @@ def create_feeding_center():
             "lat": lat,
             "long": long,
             "description": description,
+            "avg_rating": 0,
             "verified": False
             })
         status = 201
@@ -96,7 +99,7 @@ def add_review(center_id):
         rating = request.json["rating"]
         comment = request.json["comment"]
         db.feeding_center_reviews.insert_one({
-            "center_id": ObjectId(center_id),
+            "center_id": center_id,
             "name": name,
             "rating": rating,
             "comment": comment,
@@ -104,7 +107,7 @@ def add_review(center_id):
         })
         html = f"<a href='http://localhost:5000/verify-review?center_id={center_id}'>Click to complete the process.<a/>"
         sendmail(email, html)
-        return jsonify({"status": 201, "message": "Please check your email to complete this step"})
+        return jsonify({"status": 201, "message": "Please check your email to complete this step"})    
     except:
         status = 400
         message = "Please enter in all fields"
@@ -114,7 +117,9 @@ def add_review(center_id):
 @app.route("/verify-review", methods=["GET"])
 def verify_review():
     center_id = request.args.get("center_id")
-    db.feeding_center_reviews.update_one({"center_id": ObjectId(center_id)}, {
+    print(center_id)
+
+    db.feeding_center_reviews.update_one({"center_id": center_id}, {
         "$set": {"verified": True}
     })
     return render_template("verify.html")
@@ -144,7 +149,7 @@ def get_center_reviews(center_id):
     try:
         reviews = list(db.feeding_center_reviews.find({
             "verified": True,
-            "center_id": ObjectId(center_id)
+            "center_id": center_id
             }))
         reviews = [{
             "_id": str(review["_id"]),
@@ -158,6 +163,34 @@ def get_center_reviews(center_id):
         status = 400
         message = "No reviews found"
         return jsonify({"status": status, "message": message})
+
+# Admin side routes
+
+## Admin signup
+@app.route("/donation-center/signup", methods=["POST"])
+def signup():
+    try:
+        place = request.json["place"]
+        number = request.json["number"]
+        location = request.json["location"]
+        bottle_count = request.json["bottle_count"]
+        password = b"{request.json['password']}"
+        
+        sb = db.donation_center.insert_one({
+            "place": place,
+            "number": number,
+            "location": location,
+            "bottle_count": bottle_count,
+            "password": password
+        })
+        status = 201
+        message = "Admin user created successfully"
+        return jsonify({"status": status, "message": message})   
+    except:
+        status = 400
+        message = "Admin user could not be created"
+        return jsonify({"status": status, "message": message})
+        
 
 if __name__ == "__main__":
     app.run(debug=True)
