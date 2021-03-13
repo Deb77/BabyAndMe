@@ -16,7 +16,7 @@ for Windows:
 source venv/Scripts/activate
 
 for Linux:
-source env/bin/activate
+source venv/bin/activate
 
 pip install -r requirements.txt
 
