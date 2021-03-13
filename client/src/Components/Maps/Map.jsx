@@ -32,7 +32,10 @@ const Map = ({ handleClick ,height, children}) => {
                 restriction: {
                 latLngBounds: GOA_BOUNDS,
                 strictBounds: false,
-                }
+                },
+                mapTypeControl: false,
+                streetViewControl: false,
+                fullscreenControl: false,
             }
         }
         zoom={1}

@@ -3,6 +3,8 @@ import Map from '../Maps/Map';
 import { Marker } from "@react-google-maps/api";
 import { Skeleton } from '@material-ui/lab';
 
+import MarkerIcon from '../../Assets/icons8-breastfeeding-48.png';
+
 const positions= [
     { lat: 15.257130 , lng: 74.029209 , id: Math.random() },
     { lat: 15.234505 , lng: 73.937597 , id: Math.random() },
@@ -11,9 +13,11 @@ const positions= [
     { lat: 15.283725 , lng: 73.972903 , id: Math.random() },
 ]
 
-const LocationDisplay = ({isMapLoaded}) => {
+const height= '100vh';
+const LocationDisplay = ({isMapLoaded,handleLocationSelect}) => {
 
     const onClick = ( marker, id )=> {
+        handleLocationSelect(id);
         console.log('marker: ', marker, 'id: ', id)
     }
 
@@ -21,10 +25,11 @@ const LocationDisplay = ({isMapLoaded}) => {
         <div>
             {
                 isMapLoaded?
-                <Map height={'100vh'}>
+                <Map height={height}>
                 {
                     positions.map((value)=>(
                         <Marker
+                            icon={MarkerIcon}
                             key={value.lat+value.lng}
                             onClick={(e)=>onClick(e,value.id)}
                             position={value}
@@ -32,7 +37,7 @@ const LocationDisplay = ({isMapLoaded}) => {
                     ))
                 }
                 </Map>:
-                <Skeleton variant="rect" width={'100%'} height={'100vh'} />
+                <Skeleton variant="rect" width={'100%'} height={height} />
             }
         </div>
     );
