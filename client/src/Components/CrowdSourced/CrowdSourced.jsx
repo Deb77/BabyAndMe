@@ -5,11 +5,12 @@ import LocationDisplay from './LocationDisplay';
 import {makeStyles} from '@material-ui/core';
 
 const useStyles = makeStyles({
-    constiner:{
-        width: '80%',
+    container:{
+        width: '90%',
         height: '100vh',
         display: 'grid',
         gridTemplateColumns: '40% 60%',
+        margin: 'auto',
     }
 })
 
