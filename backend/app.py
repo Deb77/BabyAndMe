@@ -1,5 +1,6 @@
 import os
 import hashlib
+from datetime import datetime
 import json 
 from flask_cors import CORS
 from flask import Flask, request, jsonify, render_template
@@ -128,7 +129,6 @@ def add_review(center_id):
 @app.route("/verify-review", methods=["GET"])
 def verify_review():
     center_id = request.args.get("center_id")
-    print(center_id)
 
     db.feeding_center_reviews.update_one({"center_id": center_id}, {
         "$set": {"verified": True}
@@ -266,6 +266,23 @@ def getcenter(center_id):
         message = "Could not find any lactation center"
         return jsonify({"status": status, "message": message})
 
+## Get bottle count
+@app.route("/donation-center/get-count/<center_id>",methods=["GET"])
+def get_bottle_count(center_id):
+    try:
+        center = db.donation_center.find_one({"_id": ObjectId(center_id)})
+        pending_requests = len(list(db.donation_requests.find({"approved": False})))
+        print(pending_requests)
+        approved_requests = len(list(db.donation_requests.find({"approved": True})))
+        data = {"bottle_count": center["bottle_count"], "pending_requests": pending_requests, "approved_requests": approved_requests}
+        status = 201
+        return jsonify({"status": status, "data": data})
+    except:
+        status = 400
+        message = "Could not fetch data."
+        return jsonify({"status": status, "message": message})
+
+## Update bottle count
 @app.route("/donation-center/update-bottle-count", methods=["PUT"])
 def update_bottle_count():
     try: 
@@ -287,15 +304,14 @@ def update_bottle_count():
 def dontaion_request(center_id):
     if request.method == "GET":
         try:
-            requests = list(db.donation_requests.find({"center_id": ObjectId(center_id)}))
+            requests = list(db.donation_requests.find({"center_id": ObjectId(center_id), "approved": False}))
+            print(requests)
             requests = [{
                 "_id": str(req["_id"]),
                 "name": req["name"],
                 "email": req["email"],
                 "age": req["age"],
-                "id_proof": req["id_proof"],
-                "approved": True} for req in requests]
-            print(requests)
+                "date": req["date"].split()[0]} for req in requests]
             status = 400
             return jsonify({"status": status, "data": requests})
         except:
@@ -303,30 +319,25 @@ def dontaion_request(center_id):
             message = "No requests found"
             return jsonify({"status": status, "message": message})
     elif request.method == "POST":
-        try:
-            name = request.json["name"]
-            email = request.json["email"]
-            age = request.json["age"]
-            id_proof = request.json["id_proof"]
-            db.donation_requests.insert_one({
-                "name": name,
-                "email": email,
-                "age": age,
-                "id_proof": id_proof,
-                "center_id": ObjectId(center_id),
-                "approved": False
-            })
-            center = db.donation_center.find_one({"_id": ObjectId(center_id)})["email"]
-            subject = "Resource verification"
-            html = f"<h3>Hello from Baby&Me!!!</h3><p>You have a donation request from {email}, please login to your account to check the details."
-            sendmail(center, subject, html)
-            status = 201
-            message = "Request sent successfully"
-            return jsonify({"status": status, "message": message})
-        except:
-            status = 400
-            message = "Sorry, we were unable to process your request"
-            return jsonify({"status": status, "message": message})
+        name = request.json["name"]
+        email = request.json["email"]
+        age = request.json["age"]
+        db.donation_requests.insert_one({
+            "name": name,
+            "email": email,
+            "age": age,
+            "date": str(datetime.now()),
+            "center_id": ObjectId(center_id),
+            "approved": False
+        })
+            
+        center = db.donation_center.find_one({"_id": ObjectId(center_id)})["email"]
+        subject = "Donation Request"
+        html = f"<h3>Hello from Baby&Me!!!</h3><p>You have a donation request from {email}, please login to your account to check the details."
+        sendmail(center, subject, html)
+        status = 201
+        message = "Request sent successfully"
+        return jsonify({"status": status, "message": message})
 
 ## Approval of donation requests
 @app.route("/donation-request/approve", methods=["PUT"])
