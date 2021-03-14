@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import { Modal, TextField, Button, makeStyles } from '@material-ui/core';
 import { Formik, Field } from 'formik';
 
@@ -85,22 +86,28 @@ const useStyles= makeStyles({
     }
 });
 
-const AdminLogin = () => {
+const AdminLogin = ({ open, handleClose,setLogged }) => {
+    let history = useHistory();
 
     const handleSubmit= (values)=>{
-        console.log(values)
         axios.post('http://localhost:5000/donation-center/login',{
             email: values.email,
             password: values.password
         })
         .then((response)=>{
-            console.log("success", response.data.data)
+            localStorage.setItem("user", response.data.data._id);
+            history.push("/admin")
+            handleClose()
+            setLogged(true)
         })
     };
 
     const styles= useStyles();
     return (
-        <Modal open={true}>
+        <Modal
+            open={open}
+            onClose={handleClose}
+        >
             <Formik
             initialValues={{
                 email:'',
