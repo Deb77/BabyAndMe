@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { Container, makeStyles, Modal } from '@material-ui/core';
+import { Container, makeStyles } from '@material-ui/core';
 import Card from './Card';
 import Table from './Table'
 import {useHistory} from 'react-router-dom';
