@@ -5,8 +5,6 @@ import AddLactationCenter from './AddLactationCenters';
 import axios from 'axios';
 import {makeStyles, Button} from '@material-ui/core';
 
-const x = process.env;
-
 const useStyles = makeStyles({
     container:{
         width: '90%',

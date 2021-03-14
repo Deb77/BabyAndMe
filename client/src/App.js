@@ -5,6 +5,7 @@ import Home from './Pages/Home/home';
 import NavBar from './Components/Navbar';
 import Footer from './Components/Footer';
 import CrowdSourced from './Components/CrowdSourced/CrowdSourced';
+import Admin from './Components/Admin';
 import GoogleMapsWrapper from './Components/Utils/GoogleMapsWrapper';
 
 const App = () => {
@@ -18,7 +19,8 @@ const App = () => {
         <Switch>
           <Route path='/' exact render={()=><Home />}>
           </Route>
-          <Route path='/crowd' render={()=><CrowdSourced isMapLoaded={isMapLoaded} />}/> 
+          <Route path='/crowd' render={() => <CrowdSourced isMapLoaded={isMapLoaded} />} />
+          <Route path='/admin' render={()=><Admin />}></Route>
         </Switch>
         <Footer></Footer>
       </Router>

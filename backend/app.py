@@ -128,7 +128,6 @@ def add_review(center_id):
 @app.route("/verify-review", methods=["GET"])
 def verify_review():
     center_id = request.args.get("center_id")
-    print(center_id)
 
     db.feeding_center_reviews.update_one({"center_id": center_id}, {
         "$set": {"verified": True}
@@ -266,6 +265,23 @@ def getcenter(center_id):
         message = "Could not find any lactation center"
         return jsonify({"status": status, "message": message})
 
+## Get bottle count
+@app.route("/donation-center/get-count/<center_id>",methods=["GET"])
+def get_bottle_count(center_id):
+    try:
+        center = db.donation_center.find_one({"_id": ObjectId(center_id)})
+        pending_requests = len(list(db.donation_requests.find({"approved": False})))
+        print(pending_requests)
+        approved_requests = len(list(db.donation_requests.find({"approved": True})))
+        data = {"bottle_count": center["bottle_count"], "pending_requests": pending_requests, "approved_requests": approved_requests}
+        status = 201
+        return jsonify({"status": status, "data": data})
+    except:
+        status = 400
+        message = "Could not fetch data."
+        return jsonify({"status": status, "message": message})
+
+## Update bottle count
 @app.route("/donation-center/update-bottle-count", methods=["PUT"])
 def update_bottle_count():
     try: 
