@@ -20,15 +20,18 @@ const Admin = () => {
     const [pending, setPending] = useState(0);
     const [approved, setApproved] = useState(0);
     const [cardInfo, setCardInfo] = useState([]);
+    const [approvalId, setApprovalId] = React.useState(null);
 
     useEffect(()=>{
-        axios.get('http://localhost:5000/donation-center/get-count/604deee8be3c6193edcb9a49')
+        if(approvalId===null){
+            axios.get('http://localhost:5000/donation-center/get-count/604deee8be3c6193edcb9a49')
             .then((response) => {
                 setBottleCount(response.data.data.bottle_count)
                 setPending(response.data.data.pending_requests)
                 setApproved(response.data.data.approved_requests)
             });
-    }, [])
+        }
+    }, [approvalId])
 
     useEffect(() => {
         setCardInfo([
@@ -43,7 +46,7 @@ const Admin = () => {
             <div className={styles.container}>
                 {cardInfo.map(card => <Card title={card.title} data={card.data} />)}
             </div>
-            <Table />
+            <Table approvalId={approvalId} setApprovalId={setApprovalId} />
         </Container>
     )
 }

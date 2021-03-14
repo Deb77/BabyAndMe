@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { Button } from '@material-ui/core';
+import AdminMessageReply from '../AdminMessageReply/AdminMessageReply';
 
 const columns = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -27,19 +28,22 @@ const useStyles = makeStyles({
   },
 });
 
-export default function StickyHeadTable() {
+export default function StickyHeadTable({approvalId, setApprovalId}) {
   const classes = useStyles();
   const [rows, setRows] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+
   useEffect(() => {
-    axios.get("http://localhost:5000/donation-request/604d1c8ef70dfc5cdee49999")
+    if(approvalId===null){
+      axios.get("http://localhost:5000/donation-request/604d1c8ef70dfc5cdee49999")
       .then(res => {
         console.log(res.data.data)
         setRows(res.data.data)
-    })
-  }, [])
+      })
+    }
+  }, [approvalId])
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -50,7 +54,13 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
+  const handleAprove= (value)=>{
+    setApprovalId(value._id)
+  }
+
   return (
+    <>
+    <AdminMessageReply isOpen={approvalId!==null} reset={setApprovalId} approvalId={approvalId} />
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
@@ -76,7 +86,7 @@ export default function StickyHeadTable() {
                     return (
                       <TableCell key={column.id} align={column.align}>
                         {column.format && column.id !== "approve" && typeof value === 'number' ? column.format(value) : value}
-                        {column.id === "approve" && (<Button variant="contained">Approve</Button>)}
+                        {column.id === "approve" && (<Button variant="contained" onClick={()=>handleAprove(row)}>Approve</Button>)}
                       </TableCell>
                     );
                   })}
@@ -96,5 +106,6 @@ export default function StickyHeadTable() {
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
     </Paper>
+    </>
   );
 }

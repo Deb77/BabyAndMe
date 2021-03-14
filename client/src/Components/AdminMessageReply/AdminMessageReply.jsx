@@ -38,11 +38,16 @@ const useStyles= makeStyles({
     }
 });
 
-const AddReview = ({isOpen,handleClose,selectedLocationId}) => {
+const AddReview = ({isOpen,reset,approvalId}) => {
     const [isSnackbarOpen,setIsSnackbarOpen]= useState(false);
+
+    const handleClose= ()=>{
+        reset(null)
+    };
 
     const handleSubmit= (values)=>{
         axios.put(`http://localhost:5000/donation-request/approve`,{
+            request_id: approvalId,
             message: values.message
         })
         .then(()=>{
@@ -59,7 +64,7 @@ const AddReview = ({isOpen,handleClose,selectedLocationId}) => {
     const styles= useStyles();
     return (
         <>
-        <Modal open={true}>
+        <Modal open={isOpen}>
             <Formik
             onSubmit={handleSubmit}
             initialValues={{
