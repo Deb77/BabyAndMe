@@ -6,6 +6,8 @@ import Map from '../Maps/Map';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { Marker } from '@react-google-maps/api';
 import { Skeleton } from '@material-ui/lab';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles= makeStyles({
     container: {
@@ -41,6 +43,7 @@ const useStyles= makeStyles({
 
 const AddLactationCenters = ({isOpen,handleClose,isMapLoaded}) => {
     const [markerLoaction,setMarkerLocation]= useState(null)
+    const [isSnackbarOpen,setIsSnackbarOpen]= useState(false);
 
     const handleSubmit= (values)=>{
         axios.post('http://localhost:5000/feeding-center-create',{
@@ -51,6 +54,7 @@ const AddLactationCenters = ({isOpen,handleClose,isMapLoaded}) => {
             description: values.description
         })
         .then(()=>{
+            setIsSnackbarOpen(true);
             handleClose();
         })
 
@@ -63,9 +67,14 @@ const AddLactationCenters = ({isOpen,handleClose,isMapLoaded}) => {
         })
     }
 
+    const handleSnackBarClose= ()=>{
+        setIsSnackbarOpen(false)
+    }
+
 
     const styles= useStyles();
     return (
+        <>
         <Modal open={isOpen}>
             <Formik
             onSubmit={handleSubmit}
@@ -111,6 +120,14 @@ const AddLactationCenters = ({isOpen,handleClose,isMapLoaded}) => {
                 }
             </Formik>
         </Modal>
+        <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+         open={isSnackbarOpen} autoHideDuration={6000} onClose={handleSnackBarClose}>
+            <MuiAlert elevation={6} variant="filled" onClose={handleSnackBarClose} severity="success">
+            Please check your mail for Verification.
+            </MuiAlert>
+        </Snackbar>
+
+        </>
     );
 }
 

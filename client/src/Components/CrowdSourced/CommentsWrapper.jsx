@@ -31,6 +31,9 @@ const useStyles = makeStyles({
         height: 50,
         width: 200,
         marginTop: 30
+    },
+    notSelectedText:{
+        marginBottom: 20
     }
 
 });
@@ -120,7 +123,7 @@ const CommentsWrapper = ({selectedLocationId}) => {
             </>
             :
             <div className={styles.notSelectedsvg}>
-                <Typography variant="body1" color="textSecondary" component="p" align='center'>
+                <Typography className={styles.notSelectedText} variant="h6" color="textSecondary" component="p" align='center'>
                     Find A Safe spot to Feed your Baby
                 </Typography>
                 <NotSelectedPlaceholder width={'95%'} height={'300px'}/>

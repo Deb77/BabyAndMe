@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Modal, TextField, makeStyles, Button, Typography, IconButton } from '@material-ui/core';
 import { Formik, Field} from 'formik';
 import RatingStars from '../Comments/RatingStars';
 import CancelIcon from '@material-ui/icons/Cancel';
 import axios from 'axios';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
 
 const useStyles= makeStyles({
     container: {
@@ -38,6 +41,7 @@ const useStyles= makeStyles({
 });
 
 const AddReview = ({isOpen,handleClose,selectedLocationId}) => {
+    const [isSnackbarOpen,setIsSnackbarOpen]= useState(false);
 
     const handleSubmit= (values)=>{
         axios.post(`http://localhost:5000/add-review/${selectedLocationId}`,{
@@ -47,12 +51,19 @@ const AddReview = ({isOpen,handleClose,selectedLocationId}) => {
             comment: values.comment
         })
         .then(()=>{
+            setIsSnackbarOpen(true);
             handleClose();
         })
     };
 
+    
+    const handleSnackBarClose= ()=>{
+        setIsSnackbarOpen(false)
+    }
+
     const styles= useStyles();
     return (
+        <>
         <Modal open={isOpen}>
             <Formik
             onSubmit={handleSubmit}
@@ -95,6 +106,13 @@ const AddReview = ({isOpen,handleClose,selectedLocationId}) => {
                 }
             </Formik>
         </Modal>
+        <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+         open={isSnackbarOpen} autoHideDuration={6000} onClose={handleSnackBarClose}>
+            <MuiAlert elevation={6} variant="filled" onClose={handleSnackBarClose} severity="success">
+            Please check your mail for Verification.
+            </MuiAlert>
+        </Snackbar>
+        </>
     );
 }
 
