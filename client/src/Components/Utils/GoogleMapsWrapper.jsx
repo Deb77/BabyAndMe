@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import {useEffect} from 'react';
 import { useLoadScript } from "@react-google-maps/api"
 import GOOGLE_API_KEY from './MAP_KEY'; 
 
@@ -6,7 +6,7 @@ import GOOGLE_API_KEY from './MAP_KEY';
 const libraries = ["places"];
 
 const GoogleMapsWrapper = ({setMapStatus}) => {
-    const { isLoaded, loadError } = useLoadScript({
+    const { isLoaded } = useLoadScript({
         googleMapsApiKey: GOOGLE_API_KEY,
         libraries: libraries,
     });

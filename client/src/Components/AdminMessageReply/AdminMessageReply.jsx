@@ -38,15 +38,17 @@ const useStyles= makeStyles({
     }
 });
 
-const AddReview = ({isOpen,handleClose,selectedLocationId}) => {
+const AddReview = ({isOpen,reset,approvalId}) => {
     const [isSnackbarOpen,setIsSnackbarOpen]= useState(false);
 
+    const handleClose= ()=>{
+        reset(null)
+    };
+
     const handleSubmit= (values)=>{
-        axios.post(`http://localhost:5000/add-review/${selectedLocationId}`,{
-            name : values.name,
-            email : values.email,
-            rating: values.review,
-            comment: values.comment
+        axios.put(`http://localhost:5000/donation-request/approve`,{
+            request_id: approvalId,
+            message: values.message
         })
         .then(()=>{
             setIsSnackbarOpen(true);
@@ -66,37 +68,29 @@ const AddReview = ({isOpen,handleClose,selectedLocationId}) => {
             <Formik
             onSubmit={handleSubmit}
             initialValues={{
-                name: '',
-                email: '',
-                comment: '',
-                review: 2.5,
+                message: ''
             }}
             >
                 {
                 ({values,submitForm, setFieldValue})=>(
                     <div className={styles.container}>
+                        <Typography variant="h5" component="p" align='center'>
+                            Enter a Message to Be Sent
+                        </Typography>
                         <IconButton onClick={handleClose} className={styles.IconButton}>
                             <CancelIcon />
                         </IconButton>
-                        <Field name='name' as={TextField} placeholder='Name' fullWidth />
-                        <Field name='email' as={TextField} placeholder='Email' fullWidth />
-                        <Field name='comment' as={TextField} placeholder='Comment' fullWidth multiline
+                        <Field name='message' as={TextField} placeholder='Message to be sent to Doner.
+                        Mention Important details like date and time slot.' 
+                        fullWidth multiline
                         rows={4}/>
-                        <div className={styles.rating}>
-                            <Typography className={'margin10'} variant="body1" component="p">
-                                Rating:
-                            </Typography>
-                            <RatingStars value={values.review} 
-                                handleChange={(e)=>setFieldValue('review',parseFloat(e.target.value))} 
-                            />
-                        </div>
                         <Button className={styles.submit} variant="contained" color="primary"
                         onClick={submitForm}
                         >
                             Submit
                         </Button>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Your comment will be reflected only after email verification.
+                            An Email will be sent to the Doner
                         </Typography>
 
                     </div>
@@ -107,7 +101,7 @@ const AddReview = ({isOpen,handleClose,selectedLocationId}) => {
         <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
          open={isSnackbarOpen} autoHideDuration={6000} onClose={handleSnackBarClose}>
             <MuiAlert elevation={6} variant="filled" onClose={handleSnackBarClose} severity="success">
-            Please check your mail for Verification.
+                Email Sent Successfully
             </MuiAlert>
         </Snackbar>
         </>

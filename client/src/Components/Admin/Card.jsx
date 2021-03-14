@@ -9,12 +9,9 @@ const useStyles = makeStyles({
         textAlign: 'center',
         backgroundColor:'#CBD5F0'
     },
-    title: {
-        
-    },
 });
 
-export default function MediaCard({ title, img, data }) {
+export default function MediaCard({ title, data }) {
   const classes = useStyles();
 
     return (

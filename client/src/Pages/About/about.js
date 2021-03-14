@@ -1,7 +1,7 @@
 //react
 import React, { Fragment } from 'react';
 // import { Link } from "react-router-dom";
-import AdminLogin from '../../Components/AdminLogin/AdminLogin';
+
 
 //Mui
  import { makeStyles } from '@material-ui/core/styles';
