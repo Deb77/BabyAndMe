@@ -307,12 +307,10 @@ def dontaion_request(center_id):
             name = request.json["name"]
             email = request.json["email"]
             age = request.json["age"]
-            id_proof = request.json["id_proof"]
             db.donation_requests.insert_one({
                 "name": name,
                 "email": email,
                 "age": age,
-                "id_proof": id_proof,
                 "center_id": ObjectId(center_id),
                 "approved": False
             })
