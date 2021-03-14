@@ -47,7 +47,7 @@ const Navbar = () => {
 
   const openModal = () => {
     const user = localStorage.getItem("user");
-    if (user)
+    if (!user)
       setOpen(true)
     else
       history.push("/admin");
