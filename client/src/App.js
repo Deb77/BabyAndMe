@@ -6,12 +6,14 @@ import About from './Pages/About/about';
 import NavBar from './Components/Navbar';
 import CrowdSourced from './Components/CrowdSourced/CrowdSourced';
 import GoogleMapsWrapper from './Components/Utils/GoogleMapsWrapper';
+import AdminMessageReply from './Components/AdminMessageReply/AdminMessageReply';
 
 const App = () => {
   const [isMapLoaded,setIsMapLoaded]= useState(false);
 
   return (
     <>
+    
       <GoogleMapsWrapper setMapStatus={setIsMapLoaded} />
       <Router>
         <NavBar></NavBar>
