@@ -22,7 +22,7 @@ const Admin = () => {
     const [cardInfo, setCardInfo] = useState([]);
 
     useEffect(()=>{
-        axios.get('http://localhost:5000/donation-center/get-count/604d1c8ef70dfc5cdee49999')
+        axios.get('http://localhost:5000/donation-center/get-count/604deee8be3c6193edcb9a49')
             .then((response) => {
                 setBottleCount(response.data.data.bottle_count)
                 setPending(response.data.data.pending_requests)

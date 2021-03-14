@@ -304,14 +304,14 @@ def update_bottle_count():
 def dontaion_request(center_id):
     if request.method == "GET":
         try:
-            requests = list(db.donation_requests.find({"center_id": ObjectId(center_id)}))
+            requests = list(db.donation_requests.find({"center_id": ObjectId(center_id), "approved": False}))
+            print(requests)
             requests = [{
                 "_id": str(req["_id"]),
                 "name": req["name"],
                 "email": req["email"],
                 "age": req["age"],
-                "date": req["date"].split()[0],
-                "approved": True} for req in requests]
+                "date": req["date"].split()[0]} for req in requests]
             status = 400
             return jsonify({"status": status, "data": requests})
         except:
