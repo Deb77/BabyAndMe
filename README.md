@@ -79,7 +79,7 @@ Hosting Educational Events- By letting women attend free educational meetups to 
 Under the , National Guidelines on Lactation Management Centres in Public Health Facilities 
 <a href="https://nhm.gov.in/images/pdf/programmes/IYCF/National_Guidelines_Lactation_Management_Centres.pdf">https://nhm.gov.in/images/pdf/programmes/IYCF/National_Guidelines_Lactation_Management_Centres.pdf</a> set up by the government, it plans to have Lactation Management Units in all Medical colleges, Large District Hospitals, District hospitals, Sub District Hospitals. 
 
-#### Solution 4:
+#### Solution 3:
 On our Platform we have created a centralised database where these lactation managements can register ,and handle donation/screening requests. 
 Our Platform also has the data of milk bottles available at each center which can be updated through the Unit’s admin portal.
 
