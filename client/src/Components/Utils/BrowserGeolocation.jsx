@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import {useEffect} from 'react';
 
 const GetUserLocation = ({setCurrentLocation}) => {//get user location from brwser
 

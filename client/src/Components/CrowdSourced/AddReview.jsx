@@ -19,8 +19,6 @@ const useStyles= makeStyles({
         left: '50%',
         transform: 'translate(-50%,-50%)',
         borderRadius: 10,
-        display: 'flex',
-        flexDirection: 'column',
         display: 'grid',
         rowGap: '20px'
     },
