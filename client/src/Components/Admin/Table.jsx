@@ -12,6 +12,8 @@ import TableRow from '@material-ui/core/TableRow';
 import { Button } from '@material-ui/core';
 import AdminMessageReply from '../AdminMessageReply/AdminMessageReply';
 
+
+
 const columns = [
   { id: 'name', label: 'Name', minWidth: 170 },
   { id: 'age', label: 'Age', minWidth: 170 },
@@ -37,11 +39,14 @@ export default function StickyHeadTable({approvalId, setApprovalId}) {
 
   useEffect(() => {
     if(approvalId===null){
-      axios.get("http://localhost:5000/donation-request/604d1c8ef70dfc5cdee49999")
-      .then(res => {
-        console.log(res.data.data)
-        setRows(res.data.data)
-      })
+      const _id= window.localStorage.getItem('user');
+      if(typeof _id !== 'undefined'){
+        axios.get(`http://localhost:5000/donation-request/${_id}`)
+        .then(res => {
+          console.log(res.data.data)
+          setRows(res.data.data)
+        })
+      }
     }
   }, [approvalId])
 

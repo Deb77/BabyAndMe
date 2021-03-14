@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     },
     h2: {
         fontSize: '28px',
-        color: '#fff',
+        color: '#000',
         margin: 0
     },
     box2:{
@@ -86,7 +86,7 @@ const CrowdSourced = ({isMapLoaded}) => {
         </div>
         <div className={styles.box2} onClick={handleToggleLactionModal}>
             <p className={styles.h2}>
-                Add Breastfeeding center
+                Add Breastfeeding Center
             </p>
         </div>
         </>

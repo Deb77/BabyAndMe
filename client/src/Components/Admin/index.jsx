@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, makeStyles, Modal } from '@material-ui/core';
 import Card from './Card';
 import Table from './Table'
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles({
     container:{
@@ -22,14 +23,21 @@ const Admin = () => {
     const [cardInfo, setCardInfo] = useState([]);
     const [approvalId, setApprovalId] = React.useState(null);
 
+    const history= useHistory()
+
     useEffect(()=>{
-        if(approvalId===null){
-            axios.get('http://localhost:5000/donation-center/get-count/604deee8be3c6193edcb9a49')
-            .then((response) => {
-                setBottleCount(response.data.data.bottle_count)
-                setPending(response.data.data.pending_requests)
-                setApproved(response.data.data.approved_requests)
-            });
+        const _id= window.localStorage.getItem('user');
+        if(typeof _id === 'undefined')
+            history.push('/')
+        else{
+            if(approvalId===null){
+                axios.get(`http://localhost:5000/donation-center/get-count/${_id}`)
+                .then((response) => {
+                    setBottleCount(response.data.data.bottle_count)
+                    setPending(response.data.data.pending_requests)
+                    setApproved(response.data.data.approved_requests)
+                });
+            }    
         }
     }, [approvalId])
 
