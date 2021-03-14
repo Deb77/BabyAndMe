@@ -5,6 +5,8 @@ import Card from './Card';
 import Table from './Table'
 import {useHistory} from 'react-router-dom';
 
+import UpdateBottles from './UpdateBottles';
+
 const useStyles = makeStyles({
     container:{
         display: 'grid',
@@ -13,6 +15,11 @@ const useStyles = makeStyles({
         paddingBottom: 50,
         margin: 'auto',
     },
+    div:{
+        display: 'grid',
+        gridTemplateColumns: '78% 20%',
+        columnGap: '2%'
+    }
 })
 
 const Admin = () => {
@@ -54,7 +61,10 @@ const Admin = () => {
             <div className={styles.container}>
                 {cardInfo.map(card => <Card title={card.title} data={card.data} />)}
             </div>
+            <div className={styles.div}>
             <Table approvalId={approvalId} setApprovalId={setApprovalId} />
+            <UpdateBottles setBottleCount={setBottleCount} bottleCount={bottleCount} />
+            </div>
         </Container>
     )
 }
