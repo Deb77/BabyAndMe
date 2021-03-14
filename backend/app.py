@@ -12,7 +12,7 @@ from sendgrid.helpers.mail import Mail
 from helpers.database import db
 
 app = Flask(__name__)
-CORS(app)
+CORS(app) 
 
 # Mail settings
 app.config['SECRET_KEY'] = os.getenv("MAIL_SECRET_KEY")
@@ -315,25 +315,28 @@ def dontaion_request(center_id):
         status = 200
         return jsonify({"status": status, "data": requests})    
     elif request.method == "POST":
-        name = request.json["name"]
-        email = request.json["email"]
-        age = request.json["age"]
-        db.donation_requests.insert_one({
-            "name": name,
-            "email": email,
-            "age": age,
-            "date": str(datetime.now()),
-            "center_id": ObjectId(center_id),
-            "approved": False
-        })
-            
-        center = db.donation_center.find_one({"_id": ObjectId(center_id)})["email"]
-        subject = "Donation Request"
-        html = f"<h3>Hello from Baby&Me!!!</h3><p>You have a donation request from {email}, please login to your account to check the details."
-        sendmail(center, subject, html)
-        status = 201
-        message = "Request sent successfully"
-        return jsonify({"status": status, "message": message})
+        try:
+            name = request.json["name"]
+            email = request.json["email"]
+            age = request.json["age"]
+            db.donation_requests.insert_one({
+                "name": name,
+                "email": email,
+                "age": age,
+                "center_id": ObjectId(center_id),
+                "approved": False
+            })
+            center = db.donation_center.find_one({"_id": ObjectId(center_id)})["email"]
+            subject = "Resource verification"
+            html = f"<h3>Hello from Baby&Me!!!</h3><p>You have a donation request from {email}, please login to your account to check the details."
+            sendmail(center, subject, html)
+            status = 201
+            message = "Request sent successfully"
+            return jsonify({"status": status, "message": message})
+        except:
+            status = 400
+            message = "Sorry, we were unable to process your request"
+            return jsonify({"status": status, "message": message})
 
 ## Approval of donation requests
 @app.route("/donation-request/approve", methods=["PUT"])
