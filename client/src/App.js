@@ -20,7 +20,8 @@ const App = () => {
           </Route>
           <Route path='/About' exact render={()=><About />}>
           </Route>   
-          <Route path='/crowd' render={()=><CrowdSourced isMapLoaded={isMapLoaded} />}/> 
+          <Route path='/breastfeeding-center' render={() => <CrowdSourced isMapLoaded={isMapLoaded} />} />
+        
         </Switch>
       </Router>
     </>

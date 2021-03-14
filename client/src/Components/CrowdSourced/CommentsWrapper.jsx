@@ -81,7 +81,7 @@ const CommentsWrapper = ({selectedLocationId}) => {
                 response.data.data.forEach((value)=>{
                     avg += parseFloat(value.rating)
                 })
-                setavgReview(avg/response.data.data.length)
+                setavgReview((avg/response.data.data.length).toFixed(1))
                 setComments(response.data.data)
             })
         }

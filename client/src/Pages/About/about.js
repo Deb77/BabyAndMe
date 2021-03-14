@@ -1,7 +1,7 @@
 //react
 import React, { Fragment } from 'react';
 // import { Link } from "react-router-dom";
-
+import AdminLogin from '../../Components/AdminLogin/AdminLogin';
 
 //Mui
  import { makeStyles } from '@material-ui/core/styles';
@@ -101,6 +101,7 @@ const About =() => {
 Due to these limitations when a mother leaves her house with her child, she is likely to give the child “solution milk” ,and if she cannot after that, the child usually stays hungry till the mother reaches home.  
                     
                     </p>
+                        
                     <strong className={classes.p1}>Solution: </strong>
                     <p className={classes.p1}>If we can solve the problem of working spaces by the concept of coworking areas why can't we solve the problem of women not having a place to breastfeed their babies by creating a network of safe crowdsourced breastfeeding spots.
 

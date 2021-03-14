@@ -44,8 +44,8 @@ const Navbar = () => {
         </NavLink>
         <Bars />
         <NavMenu>
-          <NavLink to='/LacSen' activeStyle>
-            Locate Lactation Centers
+          <NavLink to='/breastfeeding-center' activeStyle>
+            Locate Breastfeeding Centers
           </NavLink>
           <NavLink to='/Donation' activeStyle>
             Donation
