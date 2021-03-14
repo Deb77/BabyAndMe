@@ -15,8 +15,8 @@
       <a href="#about-the-project">About The Project</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
-        <li><a href="#problems-and-solutions">Problems And Solutions</a></li>
         <li><a href="#what-we-aim-to-achieve">What We Aim To Achieve</a></li>
+        <li><a href="#problems-and-solutions">Problems And Solutions</a></li>
       </ul>
     </li>
     <li>
@@ -34,9 +34,12 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 Through this project we aim to solve 3 major problems faced by breastfeeding women:
+### What We Aim To Achieve:
+* To provide necessary infrastructure which are private, safe and clean, for mothers to breastfeed their infants in public places.
+* To increase awareness with regards to donation of breastmilk and it’s subsequent use as donated breast milk for little ones.
+* To aid in donation of breastmilk to Comprehensive Lactation Management Centres with the help of National Health Mission guidelines.  
+
 ### Problems And Solutions:
 #### Problem 1:
 Nearly one lakh children die every year in India due to diseases that could have been prevented through breastfeeding, according to a United Nations report. Breastfeeding not only helps prevent diarrhoea and pneumonia, two major causes of death in infants, it also helps reduce mothers’ risk of ovarian and breast cancer, two leading causes of death among women.
@@ -79,11 +82,6 @@ Under the , National Guidelines on Lactation Management Centres in Public Health
 #### Solution 4:
 On our Platform we have created a centralised database where these lactation managements can register ,and handle donation/screening requests. 
 Our Platform also has the data of milk bottles available at each center which can be updated through the Unit’s admin portal.
-
-### What we aim to achieve:
-* To provide necessary infrastructure which are private, safe and clean, for mothers to breastfeed their infants in public places.
-* To increase awareness with regards to donation of breastmilk and it’s subsequent use as donated breast milk for little ones.
-* To aid in donation of breastmilk to Comprehensive Lactation Management Centres with the help of National Health Mission guidelines.  
 
 ### Built With
 
@@ -138,10 +136,21 @@ To get a local copy up and running follow these simple example steps:
    ```
 
 ## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+The working parts are as follows:
+1. The landing page:
+  <img src="https://github.com/Deb77/BabyAndMe/blob/main/screenshots/Screenshot1.jpg"/><br><br>
+2. An about page which features our problem statements and the solutions we've implemented
+  <img src="https://github.com/Deb77/BabyAndMe/blob/main/screenshots/Screenshot3.jpg"/><br><br>
+3. A crowdsourced page to help women locate comfortable and cosy places to breastfeed their babies
+  <img src="https://github.com/Deb77/BabyAndMe/blob/main/screenshots/Screenshot2.jpg"/><br><br>
+4. A page which lists down Lactation Management Centers with an aim to create a globalised database, 
+   which displays infomation like number of bottles available in the center and other necessary details.
+   Users can also send requests to hospitals inorder to get screened to be eligible to donate milk.
+   <img src="https://github.com/Deb77/BabyAndMe/blob/main/screenshots/Screenshot4.jpg"/><br><br>
+5. An admin panel which enables the Lactation Management Center to update the number of milk bottles available, 
+  and enables the admin user to approve screening requests.
+  <img src="https://github.com/Deb77/BabyAndMe/blob/main/screenshots/Screenshot5.jpg"/><br><br>
+  
 
 ## Contributing
 
