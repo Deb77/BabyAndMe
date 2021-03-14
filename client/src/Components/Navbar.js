@@ -42,8 +42,19 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [logged, setLogged] = useState(false);
   const classes = useStyles();
-
+  
   const history = useHistory();
+
+  useEffect(()=>{
+    const user= window.localStorage.getItem('user');
+    if (user)
+      setLogged(true)
+  },[window.localStorage.getItem('user')])
+
+  const handleLogout= ()=>{
+    setLogged(false);
+    window.localStorage.removeItem('user')
+  };
 
   const openModal = () => {
     const user = localStorage.getItem("user");
@@ -76,7 +87,10 @@ const Navbar = () => {
             Donation
           </NavLink>
           {
-            logged ? null : 
+            logged ? 
+            (<Button className={classes.button} variant="contained" onClick={handleLogout}>
+            Logout
+            </Button>) : 
               (<Button className={classes.button} variant="contained" onClick={() => openModal()}>
             Login
           </Button>)
