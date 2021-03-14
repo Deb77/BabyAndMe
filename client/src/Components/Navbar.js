@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
@@ -12,6 +12,7 @@ import {
   NavMenu,
 } from './NavElements';
 import AdminLogin from '../Components/AdminLogin/AdminLogin';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,11 +39,18 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const [logged, setLogged] = useState(false);
   const classes = useStyles();
 
+  const history = useHistory();
+
   const openModal = () => {
-    setOpen(true)
+    const user = localStorage.getItem("user");
+    if (!user)
+      setOpen(true)
+    else
+      history.push("/admin");
   }
 
   const handleClose = () => {
@@ -64,11 +72,17 @@ const Navbar = () => {
           <NavLink to='/About' activeStyle>
             About
           </NavLink>
-          <Button className={classes.button} variant="contained" onClick={()=>openModal()}>
+          <NavLink to='/Donation' activeStyle>
             Donation
-          </Button>
+          </NavLink>
+          {
+            logged ? null : 
+              (<Button className={classes.button} variant="contained" onClick={() => openModal()}>
+            Login
+          </Button>)
+        }
         </NavMenu>
-        <AdminLogin open={open} handleClose={handleClose}/>
+        <AdminLogin open={open} setLogged={setLogged} handleClose={handleClose}/>
       </Nav>
     </>
   );

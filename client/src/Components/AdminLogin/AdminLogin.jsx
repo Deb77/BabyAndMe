@@ -86,7 +86,7 @@ const useStyles= makeStyles({
     }
 });
 
-const AdminLogin = ({ open, handleClose }) => {
+const AdminLogin = ({ open, handleClose,setLogged }) => {
     let history = useHistory();
 
     const handleSubmit= (values)=>{
@@ -98,6 +98,7 @@ const AdminLogin = ({ open, handleClose }) => {
             localStorage.setItem("user", response.data.data._id);
             history.push("/admin")
             handleClose()
+            setLogged(true)
         })
     };
 
