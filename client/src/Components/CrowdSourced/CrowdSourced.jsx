@@ -3,7 +3,7 @@ import CommentsWrapper from './CommentsWrapper';
 import LocationDisplay from './LocationDisplay';
 import AddLactationCenter from './AddLactationCenters';
 import axios from 'axios';
-import {makeStyles} from '@material-ui/core';
+import {makeStyles, Button} from '@material-ui/core';
 
 const x = process.env;
 
@@ -21,7 +21,7 @@ const CrowdSourced = ({isMapLoaded}) => {
     const [selectedLocationId,setSelectedLocationId] = useState(null);
     const [centerData,setCenterData] = useState([]);
 
-    const [isAddLactionModalOpen,setIsAddLactionModalOpen] = useState(true);
+    const [isAddLactionModalOpen,setIsAddLactionModalOpen] = useState(false);
 
     useEffect(()=>{
         axios.get('http://localhost:5000/get-all-centers')
@@ -39,11 +39,16 @@ const CrowdSourced = ({isMapLoaded}) => {
     //console.log(x)
     const styles= useStyles();
     return (
+        <>
+        <Button variant="contained" color='primary' onClick={handleToggleLactionModal}>
+            Add Lactation Centers
+        </Button>
         <div className={styles.container}>
             <AddLactationCenter handleClose={handleToggleLactionModal} isOpen={isAddLactionModalOpen} isMapLoaded={isMapLoaded}/>
             <CommentsWrapper selectedLocationId={selectedLocationId} />
             <LocationDisplay centerData={centerData} isMapLoaded={isMapLoaded} handleLocationSelect={handleLocationSelect} />
         </div>
+        </>
     );
 }
 
