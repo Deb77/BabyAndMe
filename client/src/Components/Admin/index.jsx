@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { Container, makeStyles } from '@material-ui/core';
+import { Container, makeStyles, Modal } from '@material-ui/core';
 import Card from './Card';
 import Table from './Table'
 
@@ -27,7 +27,6 @@ const Admin = () => {
                 setBottleCount(response.data.data.bottle_count)
                 setPending(response.data.data.pending_requests)
                 setApproved(response.data.data.approved_requests)
-
             });
     }, [])
 
@@ -44,7 +43,7 @@ const Admin = () => {
             <div className={styles.container}>
                 {cardInfo.map(card => <Card title={card.title} data={card.data} />)}
             </div>
-            <Table/>
+            <Table />
         </Container>
     )
 }
