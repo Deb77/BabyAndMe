@@ -1,4 +1,4 @@
-import os, bcrypt
+import os
 from flask_cors import CORS
 from flask import Flask, request, jsonify, render_template
 from bson.objectid import ObjectId

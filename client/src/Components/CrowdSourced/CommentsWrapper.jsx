@@ -68,11 +68,19 @@ const CommentsWrapper = ({selectedLocationId}) => {
     const styles= useStyles();
 
     const [comments,setComments] = useState([]);
+    const [avgReview,setavgReview] = useState(0);
 
     useEffect(()=>{
         if(selectedLocationId !== null){
             axios.get(`http://localhost:5000/get-center-reviews/${selectedLocationId}`)
-            .then((response)=>console.log(response.data.data))
+            .then((response)=>{
+                let avg= 0;
+                response.data.data.forEach((value)=>{
+                    avg += parseFloat(value.rating)
+                })
+                setavgReview(avg/response.data.data.length)
+                setComments(response.data.data)
+            })
         }
     },[selectedLocationId])
 
@@ -92,7 +100,7 @@ const CommentsWrapper = ({selectedLocationId}) => {
                         Add Review
                 </Button>:
                 <div className={styles.container}>
-                    <AverageReview rating={3.8} loading={false} />
+                    <AverageReview rating={avgReview} loading={false} />
                     <div className={styles.commentsContainer}>
                     <Button variant="contained" color="primary" onClick={handleToggleAddReview}>
                         Add Review

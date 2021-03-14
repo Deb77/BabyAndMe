@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react';
 import { useLoadScript } from "@react-google-maps/api"
-import GOOGLE_API_KEY from './MAP_API_KEY'; 
+import GOOGLE_API_KEY from './MAP_KEY'; 
 
 
 const libraries = ["places"];

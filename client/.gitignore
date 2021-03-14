@@ -2,6 +2,8 @@
 
 #api
 /src/Components/Utils/MAP_API_KEY.js
+/MAP_KEY.js
+.env
 
 # dependencies
 /node_modules
