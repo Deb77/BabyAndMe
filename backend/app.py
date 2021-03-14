@@ -271,9 +271,9 @@ def getcenter(center_id):
 def get_bottle_count(center_id):
     try:
         center = db.donation_center.find_one({"_id": ObjectId(center_id)})
-        pending_requests = len(list(db.donation_requests.find({"approved": False})))
+        pending_requests = len(list(db.donation_requests.find({"approved": False, "center_id": center_id})))
         print(pending_requests)
-        approved_requests = len(list(db.donation_requests.find({"approved": True})))
+        approved_requests = len(list(db.donation_requests.find({"approved": True, "center_id": center_id})))
         data = {"bottle_count": center["bottle_count"], "pending_requests": pending_requests, "approved_requests": approved_requests}
         status = 201
         return jsonify({"status": status, "data": data})
@@ -303,21 +303,17 @@ def update_bottle_count():
 @app.route("/donation-request/<center_id>", methods=["GET","POST"])
 def dontaion_request(center_id):
     if request.method == "GET":
-        try:
-            requests = list(db.donation_requests.find({"center_id": ObjectId(center_id), "approved": False}))
-            print(requests)
-            requests = [{
-                "_id": str(req["_id"]),
-                "name": req["name"],
-                "email": req["email"],
-                "age": req["age"],
-                "date": req["date"].split()[0]} for req in requests]
-            status = 400
-            return jsonify({"status": status, "data": requests})
-        except:
-            status = 400
-            message = "No requests found"
-            return jsonify({"status": status, "message": message})
+        print(ObjectId(center_id))
+        requests = list(db.donation_requests.find({"center_id": ObjectId(center_id)}))
+        print(requests)
+        requests = [{
+            "_id": str(req["_id"]),
+            "name": req["name"],
+            "email": req["email"],
+            "age": req["age"],
+            "date": req["date"].split()[0]} for req in requests]
+        status = 200
+        return jsonify({"status": status, "data": requests})    
     elif request.method == "POST":
         name = request.json["name"]
         email = request.json["email"]
