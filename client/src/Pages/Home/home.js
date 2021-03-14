@@ -211,7 +211,7 @@ const Home =() => {
             </div>
             <div className={classes.whatcard}>
             <Card className={classes.root} raised={true}>
-            <Link to="/LacSen" className={classes.linkb}>
+            <Link to="/breastfeeding-center" className={classes.linkb}>
                 <CardActionArea>
                     <CardMedia
                     className={classes.media}

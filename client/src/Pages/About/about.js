@@ -147,10 +147,12 @@ Hosting Educational Events- By letting women attend free educational meetups to 
                         <img src={Mission1Pic} width='100%' alt="About Us Pic"/>
                     </Grid>
                     <Grid item xs={10}>
-                    <p className={classes.p1}> Women have fed their babies in their own car (90%), public transport (78%), restaurants (56%), car parking (49%), trial rooms (47%), washrooms (44%), religious places (41%), parks (32%) and breastfeeding rooms (6%). The most awkward places are a broom closet room in an airport, under a tree, the waiting room of the passport office, bank queues, washrooms, a bench in a mall, and a bus stop. Around 81% mothers are not comfortable feeding their children in public due to the lack of proper breastfeeding places. The greatest deterrents are hygiene (53%), and uncomfortable stares and lack of privacy (47%).  
-                    <a href='https://www.thehindu.com/sci-tech/health/only-6-mothers-in-india-are-okay-with-public-breastfeeding-places-says-survey/article29037650.ece#:~:text=Breastfeeding%20in%20public%20is%20still,India%20survey%20by%20Momspresso.com.&text=Around%2081%25%20mothers%20are%20not,lack%20of%20proper%20breastfeeding%20places.'>Learn More</a>
+                    <strong className={classes.p1}>Problem: </strong>
+                    <p className={classes.p1}>Under the , National Guidelines on Lactation Management Centres in Public Health Facilities <a href='https://nhm.gov.in/images/pdf/programmes/IYCF/National_Guidelines_Lactation_Management_Centres.pdf'>https://nhm.gov.in/images/pdf/programmes/IYCF/National_Guidelines_Lactation_Management_Centres.pdf</a> set up by the government, it plans to have Lactation Management Units in all Medical colleges, Large District Hospitals, District hospitals, Sub District Hospitals.
+                    
                     </p>
-                    <p className={classes.p1}> *To increase awareness with regards to donation of breastmilk and it’s subsequent use as donated breast milk for little ones.</p>
+                    <strong className={classes.p1}>Solution: </strong>
+                    <p className={classes.p1}> On our Platform we have created a centralised database where these lactation managements can register ,and handle donation/screening requests. Our Platform also has the data of milk bottles available at each center which can be updated through the Unit’s admin portal.</p>
                     </Grid>
                 </Grid>
             </Box>
