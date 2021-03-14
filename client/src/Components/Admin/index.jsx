@@ -32,7 +32,8 @@ const Admin = () => {
         else{
             if(approvalId===null){
                 axios.get(`http://localhost:5000/donation-center/get-count/${_id}`)
-                .then((response) => {
+                    .then((response) => {
+                    console.log(response)
                     setBottleCount(response.data.data.bottle_count)
                     setPending(response.data.data.pending_requests)
                     setApproved(response.data.data.approved_requests)
