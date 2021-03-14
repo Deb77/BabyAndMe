@@ -6,11 +6,11 @@ import { Link } from "react-router-dom";
 //Mui
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import { Typography } from '@material-ui/core';
 
 //Custom Components
 import HeroPic from '../../Images/5276.jpg'
@@ -20,7 +20,7 @@ import LadyPic from '../../Images/lady.png'
 import BreFeePic from '../../Images/brefee.png'
 import DrinkingPic from '../../Images/babydrinking.png'
 import BottlePic from '../../Images/bottle.png'
-import { Typography } from '@material-ui/core';
+
 
 
 
